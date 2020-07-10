@@ -18,6 +18,10 @@ class AsyncTestCase:
     async def tearDown(self) -> None:
         pass
 
+    def assertEqual(self, a, b):
+        if a != b:
+            raise ValueError(f"{a}!={b}")
+
 
 def run():
     loop = asyncio.get_event_loop()
@@ -81,15 +85,15 @@ if __name__ == '__main__':
             logger.info('setUp')
 
         def test(self):
-            assert self.b / self.a
+            self.assertEqual(self.b / self.a, 3)
 
         async def test2(self):
             self.b / await asyncio.sleep(2, 0)
 
         async def test3(self):
             res = await asyncio.sleep(2, 0)
-            assert res == self.b
-            assert res == self.a
+            self.assertEqual(res, self.b)
+            self.assertEqual(res, self.a)
 
         async def tearDown(self) -> None:
             logger.info('tearDown')
