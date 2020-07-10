@@ -75,7 +75,8 @@ def run():
         [await task for task in subclass_test_tasks]
 
     loop.run_until_complete(main())
-    logger.info(f'Spent seconds: {loop.time() - start}, error count:{error_count}')
+    (logger.warning if not error_count else logger.error)(
+        f'Spent seconds: {loop.time() - start}, error count:{error_count}')
 
 
 if __name__ == '__main__':
