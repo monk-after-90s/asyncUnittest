@@ -21,7 +21,7 @@ class AsyncTestCase:
 
     def assertEqual(self, a, b):
         if a != b:
-            raise ValueError(
+            raise AssertionError(
                 f"\n{beeprint.pp(a, output=False, sort_keys=False, string_break_enable=False)}!=\n{beeprint.pp(b, output=False, sort_keys=False, string_break_enable=False)}")
 
     def assertTrue(self, a):
