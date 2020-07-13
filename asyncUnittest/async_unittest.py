@@ -26,8 +26,8 @@ class AsyncTestCase:
             raise AssertionError(
                 f"\n{beeprint.pp(args, output=False, sort_keys=False, string_break_enable=False)}\nitems do not equal each other.")
 
-    def assertTrue(self, a):
-        self.assertEqual(True, a)
+    def assertTrue(self, *args):
+        self.assertEqual(True, *args)
 
 
 def run():
@@ -95,19 +95,19 @@ if __name__ == '__main__':
             self.b = await asyncio.sleep(2, 5)
             logger.info('setUp')
 
-        def test(self):
-            self.assertEqual(self.b / self.a, 3)
-
-        async def test2(self):
-            self.b / await asyncio.sleep(2, 0)
-
-        async def test3(self):
-            res = await asyncio.sleep(2, 0)
-            self.assertEqual(res, self.b)
-            self.assertEqual(res, self.a)
+        # def test(self):
+        #     self.assertEqual(self.b / self.a, 3)
+        #
+        # async def test2(self):
+        #     self.b / await asyncio.sleep(2, 0)
+        #
+        # async def test3(self):
+        #     res = await asyncio.sleep(2, 0)
+        #     self.assertEqual(res, self.b)
+        #     self.assertEqual(res, self.a)
 
         async def test4(self):
-            res = await asyncio.sleep(2, 0)
+            res = await asyncio.sleep(2, 1)
             self.assertTrue(res != 0)
 
         async def tearDown(self) -> None:
