@@ -5,6 +5,8 @@ import beeprint
 
 
 class AsyncTestCase:
+    enable_test = True
+
     @classmethod
     async def setUpClass(cls) -> None:
         pass
@@ -71,7 +73,8 @@ def run():
         await AsyncTestCase_subclass.tearDownClass()
 
     async def main():
-        subclass_test_tasks = [asyncio.create_task(subclass_test(sub)) for sub in AsyncTestCase.__subclasses__()]
+        subclass_test_tasks = [asyncio.create_task(subclass_test(sub)) \
+                               for sub in AsyncTestCase.__subclasses__() if sub.enable_test]
         [await task for task in subclass_test_tasks]
 
     loop.run_until_complete(main())
@@ -81,6 +84,8 @@ def run():
 
 if __name__ == '__main__':
     class Test(AsyncTestCase):
+        enable_test = False
+
         @classmethod
         async def setUpClass(cls) -> None:
             cls.a = await asyncio.sleep(2, 10)
