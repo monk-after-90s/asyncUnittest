@@ -21,10 +21,10 @@ class AsyncTestCase:
     async def tearDown(self) -> None:
         pass
 
-    def assertEqual(self, a, b):
-        if a != b:
+    def assertEqual(self, *args):
+        if any([args[0] != arg for arg in args]):
             raise AssertionError(
-                f"\n{beeprint.pp(a, output=False, sort_keys=False, string_break_enable=False)}!=\n{beeprint.pp(b, output=False, sort_keys=False, string_break_enable=False)}")
+                f"\n{beeprint.pp(args, output=False, sort_keys=False, string_break_enable=False)}\nitems do not equal each other.")
 
     def assertTrue(self, a):
         self.assertEqual(True, a)
@@ -84,7 +84,7 @@ def run():
 
 if __name__ == '__main__':
     class Test(AsyncTestCase):
-        enable_test = False
+        # enable_test = False
 
         @classmethod
         async def setUpClass(cls) -> None:
