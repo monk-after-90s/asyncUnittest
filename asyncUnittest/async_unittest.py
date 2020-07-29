@@ -39,7 +39,7 @@ def run():
     async def subclass_test(AsyncTestCase_subclass):
         await AsyncTestCase_subclass.setUpClass()
 
-        async def test_one_method(attribute: str):
+        async def test_one_method(attribute: str, all_test_method: list):
             async_test_case = None
             try:
                 async_test_case = AsyncTestCase_subclass()
@@ -57,6 +57,9 @@ def run():
                 nonlocal error_count
                 error_count += 1
             finally:
+                all_test_method.remove(attribute)
+                logger.warning(
+                    f'Test method {attribute} is complete.Left:{beeprint.pp(all_test_method, output=False, sort_keys=False, string_break_enable=False)}')
                 try:
                     await async_test_case.tearDown()
                 except:
@@ -64,9 +67,11 @@ def run():
 
         test_one_method_tasks = []
         # find all test
+        all_test_method = []
         for attr in dir(AsyncTestCase_subclass):
             if 'test' in attr.lower() and attr.strip('_') == attr:
-                test_one_method_tasks.append(asyncio.create_task(test_one_method(attr)))
+                test_one_method_tasks.append(asyncio.create_task(test_one_method(attr, all_test_method)))
+                all_test_method.append(attr)
         # await asyncio.wait(one_test_tasks)
         [await task for task in test_one_method_tasks]
 
