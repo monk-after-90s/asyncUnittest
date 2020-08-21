@@ -36,6 +36,7 @@ def run():
     start = loop.time()
     error_count = 0
     all_test_method = []
+    error_tracebacks = []
 
     async def subclass_test(AsyncTestCase_subclass):
         await AsyncTestCase_subclass.setUpClass()
@@ -54,7 +55,8 @@ def run():
                         await asyncio.create_task(test_function())
 
             except:
-                logger.error(traceback.format_exc())
+                nonlocal error_tracebacks
+                error_tracebacks.append(traceback.format_exc())
                 nonlocal error_count
                 error_count += 1
             finally:
@@ -83,6 +85,8 @@ def run():
         [await task for task in subclass_test_tasks]
 
     loop.run_until_complete(main())
+    for error_traceback in error_tracebacks:
+        logger.error(error_traceback)
     (logger.warning if not error_count else logger.error)(
         f'Spent seconds: {loop.time() - start}, error count:{error_count}')
 
