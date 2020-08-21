@@ -29,6 +29,16 @@ class AsyncTestCase:
     def assertTrue(self, *args):
         self.assertEqual(True, *args)
 
+    def assertGreaterThan(self, a, b):
+        try:
+            self.assertTrue(a > b)
+        except AssertionError:
+            raise AssertionError(
+                f"\n\n{beeprint.pp(a, output=False, sort_keys=False, string_break_enable=False)}\nis not greater than \n\n{beeprint.pp(b, output=False, sort_keys=False, string_break_enable=False)}.")
+
+    def assertLessThan(self, a, b):
+        pass
+
 
 def run():
     loop = asyncio.get_event_loop()
@@ -115,9 +125,13 @@ if __name__ == '__main__':
         #     self.assertEqual(res, self.b)
         #     self.assertEqual(res, self.a)
 
-        async def test4(self):
+        # async def test4(self):
+        #     res = await asyncio.sleep(2, 1)
+        #     self.assertTrue(res != 0)
+
+        async def test_great_than(self):
             res = await asyncio.sleep(2, 1)
-            self.assertTrue(res != 0)
+            self.assertGreaterThan(res, 2)
 
         async def tearDown(self) -> None:
             logger.info('tearDown')
