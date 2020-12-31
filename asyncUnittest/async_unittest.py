@@ -111,12 +111,24 @@ def run():
         subclass_test_tasks = [asyncio.create_task(subclass_test(sub)) \
                                for sub in AsyncTestCase.__subclasses__() if sub.enable_test]
         [await task for task in subclass_test_tasks]
+        loop.stop()
 
-    loop.run_until_complete(main())
+    loop.create_task(main())
+    loop.run_forever()
+    # clear
+    to_cancel = asyncio.all_tasks(loop)
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(
+        asyncio.gather(*to_cancel, return_exceptions=True)
+    )
+    loop.run_until_complete(loop.shutdown_asyncgens())
+
     for error_traceback in error_tracebacks:
         logger.error(error_traceback)
     (logger.warning if not error_count else logger.error)(
         f'Spent seconds: {loop.time() - start}, error count:{error_count}')
+    loop.close()
 
 
 if __name__ == '__main__':
