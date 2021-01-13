@@ -122,17 +122,16 @@ def run():
 
     loop.create_task(main())
     loop.run_forever()
+
     # clear
     to_cancel = asyncio.all_tasks(loop)
-    for task in to_cancel:
-        task.cancel()
-    try:
-        loop.run_until_complete(
-            asyncio.wait_for(asyncio.gather(*to_cancel, return_exceptions=True), timeout=3)
-        )
-    except:
-        pass
-    logger.debug(beeprint.pp(f'tasks:{to_cancel}', output=False, string_break_enable=False))
+
+    async def clear_tasks():
+        for task in to_cancel:
+            task.cancel()
+        await asyncio.create_task(asyncio.wait_for(to_cancel, timeout=3))
+
+    loop.run_until_complete(clear_tasks())
     loop.run_until_complete(loop.shutdown_asyncgens())
 
     for error_traceback in error_tracebacks:
