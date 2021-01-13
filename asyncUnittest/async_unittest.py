@@ -122,22 +122,21 @@ def run():
 
     loop.create_task(main())
     loop.run_forever()
-
+    for error_traceback in error_tracebacks:
+        logger.error(error_traceback)
+    (logger.warning if not error_count else logger.error)(
+        f'Spent seconds: {loop.time() - start}, error count:{error_count}')
     # clear
     to_cancel = asyncio.all_tasks(loop)
 
     async def clear_tasks():
         for task in to_cancel:
             task.cancel()
-        await asyncio.create_task(asyncio.wait_for(to_cancel, timeout=3))
+        await asyncio.sleep(1)
 
     loop.run_until_complete(clear_tasks())
     loop.run_until_complete(loop.shutdown_asyncgens())
 
-    for error_traceback in error_tracebacks:
-        logger.error(error_traceback)
-    (logger.warning if not error_count else logger.error)(
-        f'Spent seconds: {loop.time() - start}, error count:{error_count}')
     loop.close()
 
 
