@@ -126,9 +126,12 @@ def run():
     to_cancel = asyncio.all_tasks(loop)
     for task in to_cancel:
         task.cancel()
-    loop.run_until_complete(
-        asyncio.gather(*to_cancel, return_exceptions=True)
-    )
+    try:
+        loop.run_until_complete(
+            asyncio.wait_for(asyncio.gather(*to_cancel, return_exceptions=True), timeout=3)
+        )
+    except:
+        pass
     loop.run_until_complete(loop.shutdown_asyncgens())
 
     for error_traceback in error_tracebacks:
