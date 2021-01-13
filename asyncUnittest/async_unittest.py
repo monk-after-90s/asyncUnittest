@@ -132,6 +132,7 @@ def run():
         )
     except:
         pass
+    logger.debug(beeprint.pp(f'tasks:{to_cancel}', output=False))
     loop.run_until_complete(loop.shutdown_asyncgens())
 
     for error_traceback in error_tracebacks:
