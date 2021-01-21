@@ -1,7 +1,7 @@
 # asyncUnittest
 
 asyncUnittest is created for fully asynchronous unit test,which is inspired by unittest. I hear that the newest unittest
-has support asynchronous test already. Well, maybe that is a better choice.
+has supported asynchronous test already. Well, maybe that is a better choice.
 
 ---
 
@@ -65,11 +65,13 @@ inheriting test case, assign False to it.
 
 #### setUpClass
 
-The test case runs with the first step of calling and awaiting 'setUpClass', before anything else happens.
+The test case runs with the first step of calling and awaiting 'setUpClass', before anything else happens. It could be
+omitted.
 
 #### setUp
 
-All test methods run concurrently. Before each test method runs, its belonging 'setUp' would be called and awaited.
+All test methods run concurrently. Before each test method runs, its belonging 'setUp' would be called and awaited.It
+could be omitted.
 
 #### test method
 
@@ -87,11 +89,12 @@ editor hint. More will be implemented in the future.
 
 #### tearDown
 
-After each test method completes, its belonging 'tearDown' would be called and awaited.
+After each test method completes, its belonging 'tearDown' would be called and awaited.It could be omitted.
 
 #### tearDownClass
 
-After everything else completes in the test case, the last step is to call and await 'tearDownClass'.
+After everything else completes in the test case, the last step is to call and await 'tearDownClass'.It could be
+omitted.
 
 #### run
 
