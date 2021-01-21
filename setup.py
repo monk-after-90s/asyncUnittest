@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="asyncUnittest",
-    version="1.3.8",
+    version="1.3.9",
     author="Antas",
     author_email="",
     description="Fully asynchronous unit test",
