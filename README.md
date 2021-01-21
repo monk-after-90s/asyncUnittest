@@ -84,7 +84,7 @@ will be ignored. You can close some test method by adding '_'.
 
 #### assertTrue
 
-"assertTrue" is an assertion method, which asserts all its arguments true. You can find more assertion method in your
+"assertTrue" is an assertion method, which asserts all its arguments true. You can find more assertion methods in your
 editor hint. More will be implemented in the future.
 
 #### tearDown
@@ -102,7 +102,7 @@ omitted.
 from asyncUnittest import run
 ```
 
-When "run" is called, any test case in the same global scope would run. So you run one test case:
+When "run" is called, any test case in the same global scope would run. So you can run one test case:
 
 ```python
 class Test(AsyncTestCase):
@@ -168,6 +168,6 @@ items do not equal each other.
 
 "Test method * is complete.Left:[...]" shows which test method is completed and which are still running.
 
-"Traceback" shows error detail.
+"Traceback" shows error tracebacks.
 
 "Spent seconds...error count..." shows spent time and error count.
