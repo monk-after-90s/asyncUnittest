@@ -74,9 +74,10 @@ All test methods run concurrently. Before each test method runs, its belonging '
 
 A test method may be a normal function or coroutine function.
 
-Define test methods with 'test' in their name's lower case copy, starting or ending with no '_'. For example,
-test_connect and cancel_test are OK, but _test_connect and cancel_test_ will be ignored. You can close some test method
-by adding '_'.
+Any method is a test method as long as string 'test' is in their name's lower case copy, starting or ending with no '
+\_'. For example, test_connect and cancel_test are OK, but \_test_connect, \_test_connect_, \_cancel_test_ and
+cancel_test_
+will be ignored. You can close some test method by adding '_'.
 
 #### tearDown
 
