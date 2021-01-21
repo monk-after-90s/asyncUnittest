@@ -40,6 +40,7 @@ class Test(AsyncTestCase):
 
     async def test2(self):
         print('test2')
+        self.assertTrue(0)
 
     def test3(self):
         print('test3')
@@ -79,6 +80,11 @@ Any method is a test method as long as string 'test' is in their name's lower ca
 cancel_test_
 will be ignored. You can close some test method by adding '_'.
 
+#### assertTrue
+
+"assertTrue" is an assertion method, which asserts all its arguments true. You can find more assertion method in your
+editor hint. More will be implemented in the future.
+
 #### tearDown
 
 After each test method completes, its belonging 'tearDown' would be called and awaited.
@@ -86,3 +92,79 @@ After each test method completes, its belonging 'tearDown' would be called and a
 #### tearDownClass
 
 After everything else completes in the test case, the last step is to call and await 'tearDownClass'.
+
+#### run
+
+```python
+from asyncUnittest import run
+```
+
+When "run" is called, any test case in the same global scope would run. So you run one test case:
+
+```python
+class Test(AsyncTestCase):
+    ...
+
+
+run()
+```
+
+Or you can import multiple test cases to the target scope and run them concurrently. For example:
+
+```python
+from Gear_test import TestGear
+from method_run_when_test import TestInstance_run_when
+from run_when_test import TestRunWhen
+from asyncUnittest import run
+
+run()
+```
+
+#### result
+
+The test result would be print in python console:
+
+```shell
+setUpClass
+setUp
+tearDown
+setUp
+setUp
+setUp
+test3
+tearDown
+test1
+test2
+tearDown
+tearDown
+tearDownClass
+2021-01-21 15:35:00.339 | WARNING  | asyncUnittest.async_unittest:test_one_method:99 - Test method enable_test is complete.Left:['<class '__main__.Test'>.test1', '<class '__main__.Test'>.test2', '<class '__main__.Test'>.test3']
+
+2021-01-21 15:35:00.341 | WARNING  | asyncUnittest.async_unittest:test_one_method:99 - Test method test3 is complete.Left:['<class '__main__.Test'>.test1', '<class '__main__.Test'>.test2']
+
+2021-01-21 15:35:00.341 | WARNING  | asyncUnittest.async_unittest:test_one_method:99 - Test method test1 is complete.Left:['<class '__main__.Test'>.test2']
+
+2021-01-21 15:35:00.342 | WARNING  | asyncUnittest.async_unittest:test_one_method:99 - Test method test2 is complete.Left:[]
+
+2021-01-21 15:35:00.342 | ERROR    | asyncUnittest.async_unittest:run:126 - Traceback (most recent call last):
+  File "/Users/90houlaoheshang/Desktop/asyncUnittest/asyncUnittest/async_unittest.py", line 90, in test_one_method
+    await asyncio.create_task(test_function())
+  File "/Users/90houlaoheshang/Desktop/asyncUnittest/test.py", line 19, in test2
+    self.assertTrue(0)
+  File "/Users/90houlaoheshang/Desktop/asyncUnittest/asyncUnittest/async_unittest.py", line 30, in assertTrue
+    self.assertEqual(True, *args)
+  File "/Users/90houlaoheshang/Desktop/asyncUnittest/asyncUnittest/async_unittest.py", line 26, in assertEqual
+    raise AssertionError(
+AssertionError: 
+(True, 0)
+
+items do not equal each other.
+
+2021-01-21 15:35:00.342 | ERROR    | asyncUnittest.async_unittest:run:127 - Spent seconds: 0.008960776000000004, error count:1
+```
+
+"Test method * is complete.Left:[...]" shows which test method is completed and which are still running.
+
+"Traceback" shows error detail.
+
+"Spent seconds...error count..." shows spent time and error count.
