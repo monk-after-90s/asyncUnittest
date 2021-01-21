@@ -1,7 +1,7 @@
 # asyncUnittest
 
-asyncUnittest is created for fully asynchronous unit test inspired by unittest. I hear that the newest unittest has
-support asynchronous test already. Well, maybe that is a better choice.
+asyncUnittest is created for fully asynchronous unit test,which is inspired by unittest. I hear that the newest unittest
+has support asynchronous test already. Well, maybe that is a better choice.
 
 ---
 
@@ -64,7 +64,7 @@ inheriting test case, assign False to it.
 
 #### setUpClass
 
-The test case runs with the first step of calling and await 'setUpClass', before anything else happens.
+The test case runs with the first step of calling and awaiting 'setUpClass', before anything else happens.
 
 #### setUp
 
