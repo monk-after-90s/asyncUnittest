@@ -102,17 +102,21 @@ omitted.
 from asyncUnittest import run
 ```
 
-When "run" is called, any test case in the same global scope would run. So you can run one test case:
+When "run" is called, any test case inherited from 'AsyncTestCase' would run. So you can run test cases in one file:
 
 ```python
 class Test(AsyncTestCase):
     ...
 
 
+class Test2(AsyncTestCase):
+    ...
+
+
 run()
 ```
 
-Or you can import multiple test cases to the target scope and run them concurrently. For example:
+Or you can import test cases to the target scope and run them concurrently. For example:
 
 ```python
 from Gear_test import TestGear
@@ -125,7 +129,7 @@ run()
 
 #### result
 
-The test result would be print in python console:
+The test result would be printed in the python console:
 
 ```shell
 setUpClass
