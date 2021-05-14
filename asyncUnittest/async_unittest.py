@@ -64,6 +64,13 @@ class AsyncTestCase:
             raise AssertionError(
                 f"\n\n{beeprint.pp(item, output=False, sort_keys=False, string_break_enable=False)}\nis not in \n\n{beeprint.pp(sequence, output=False, sort_keys=False, string_break_enable=False)}.")
 
+    def assertNotIn(self, item, sequence):
+        try:
+            self.assertTrue(item not in sequence)
+        except AssertionError:
+            raise AssertionError(
+                f"\n\n{beeprint.pp(item, output=False, sort_keys=False, string_break_enable=False)}\nis in \n\n{beeprint.pp(sequence, output=False, sort_keys=False, string_break_enable=False)}.")
+
 
 def run():
     loop = asyncio.get_event_loop()
@@ -181,8 +188,10 @@ if __name__ == '__main__':
         #     res = await asyncio.sleep(2, 1.0)
         #     self.assertIsNot(res, 1.0)
 
-        async def test_is_in(self):
-            self.assertIn(4, [1, 2, 3])
+        # async def test_is_in(self):
+        #     self.assertIn(4, [1, 2, 3])
+        async def test_is_not_in(self):
+            self.assertNotIn(3, [1, 2, 3])
 
         async def tearDown(self) -> None:
             logger.info('tearDown')
