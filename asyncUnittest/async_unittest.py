@@ -71,6 +71,13 @@ class AsyncTestCase:
             raise AssertionError(
                 f"\n\n{beeprint.pp(item, output=False, sort_keys=False, string_break_enable=False)}\nis in \n\n{beeprint.pp(sequence, output=False, sort_keys=False, string_break_enable=False)}.")
 
+    def assertItemEqual(self, sequence, target):
+        try:
+            self.assertTrue(all(target == i for i in sequence))
+        except AssertionError:
+            raise AssertionError(
+                f"\n\n Some item in {beeprint.pp(sequence, output=False, sort_keys=False, string_break_enable=False)}\ndoes not equal with \n\n{beeprint.pp(target, output=False, sort_keys=False, string_break_enable=False)}.")
+
 
 def run():
     loop = asyncio.get_event_loop()
@@ -190,8 +197,12 @@ if __name__ == '__main__':
 
         # async def test_is_in(self):
         #     self.assertIn(4, [1, 2, 3])
-        async def test_is_not_in(self):
-            self.assertNotIn(3, [1, 2, 3])
+        # async def test_is_not_in(self):
+        #     self.assertNotIn(3, [1, 2, 3])
+        async def test_assertItemEqual(self):
+            self.assertItemEqual([1, 1, 1], 1)
+            self.assertItemEqual([{}, {}, {}], {})
+            self.assertItemEqual([{}, {1}, {}], {})
 
         async def tearDown(self) -> None:
             logger.info('tearDown')
